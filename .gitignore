@@ -52,4 +52,6 @@ geckodriver.log
 .history
 .vscode
 
-/trained_model
+/trained_model/
+*.zip
+*.model
