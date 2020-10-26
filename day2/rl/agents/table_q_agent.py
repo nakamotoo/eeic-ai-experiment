@@ -31,10 +31,10 @@ class TableQAgent(abstract_agent.Agent):
 
     def act_and_train(self, obs, reward, done):
         self.train(obs, reward)
-        return self.select_action(obs)
+        return self.select_action(obs, mode="train")
 
     def act(self, obs):
-        return self.select_action(obs)
+        return self.select_action(obs, mode="test")
 
     def stop_episode_and_train(self, obs, reward, done=False):
         self.train(obs, reward)
@@ -71,8 +71,10 @@ class TableQAgent(abstract_agent.Agent):
                 #       self.q_table の実装がどのようになっているかに注意してください。
                 # ------------
                 # max_q = # here #
-                raise NotImplementedError()
+#                 raise NotImplementedError()
                 # ------------
+                
+                max_q = np.max(self.q_table[obs_key])
             else:
                 max_q = 0.0
 
@@ -84,17 +86,21 @@ class TableQAgent(abstract_agent.Agent):
             # です。ここで、pは学習率、gは割引率です。
             # ------------
             # self.q_table[# here #][# here #] = # here #
-            raise NotImplementedError()
+#             raise NotImplementedError()
             # ------------
+            
+            self.q_table[last_obs_key][self.last_action] = self.q_table[last_obs_key][self.last_action]  + self.learning_rate * (reward + max_q * self.discount_factor - self.q_table[last_obs_key][self.last_action]) 
 
         # 観測を保存
         self.last_obs = obs
 
-    def select_action(self, obs):
+    def select_action(self, obs, mode):
         obs_key = self.observation_to_key(obs)
         if obs_key in self.q_table:
             # 観測から行動を決める
-            action = self.epsilon_greedy(obs_key)
+            action, greedy_action = self.epsilon_greedy(obs_key)
+            if mode == "test":
+                action = greedy_action
         else:
             # Q値がまだ定まっていないのでランダムに動く
             action = np.random.randint(self.action_num)
@@ -113,8 +119,9 @@ class TableQAgent(abstract_agent.Agent):
         # Hint: random_agent.py を参考にしてみましょう。
         # ------------
         # random_action = # here #
-        raise NotImplementedError()
+#         raise NotImplementedError()
         # ------------
+        random_action = np.random.randint(self.action_num) 
 
         # exploitation (活用)
         # ---穴埋め---
@@ -122,8 +129,10 @@ class TableQAgent(abstract_agent.Agent):
         # Hint: np.argmax() を使うとよいでしょう。
         # ------------
         # max_q_action = # here #
-        raise NotImplementedError()
+#         raise NotImplementedError()
         # ------------
+        max_q_action  = np.argmax(self.q_table[obs_key])
+        
 
         # どっちか選択
         # ---穴埋め---
@@ -131,10 +140,12 @@ class TableQAgent(abstract_agent.Agent):
         # Hint: np.random.choice() を使うとよいでしょう。
         # ------------
         # action = # here #
-        raise NotImplementedError()
+#         raise NotImplementedError()
         # ------------
-
-        return action
+        action = np.random.choice([max_q_action, random_action], p = [1- self.exploration_prob, self.exploration_prob])
+        
+        # 演習3.4.9 train時のみε-greedy で行動
+        return action, max_q_action
 
     def q_table_to_str(self):
         """Q_table をいい感じに複数行の文字列にして返す"""

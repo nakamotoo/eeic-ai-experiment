@@ -29,10 +29,10 @@ class RulebaseAgent(abstract_agent.Agent):
         # ---穴埋め---
         # 観測を利用して、最短ステップでゴールできるようなactionを返せるようにせよ。
         # 例えば、
-        # print(obs)
+        print(obs)
         # などとすることで、観測がどのように与えられるかを確認することができる。
         # また、
-        # action = 0
+        #action = 1
         # として実行すれば、「action = 0」が迷路において
         # どのような行動に相当するかを見ることができる。
         # ------------
@@ -40,8 +40,15 @@ class RulebaseAgent(abstract_agent.Agent):
         #     action =  # here #
         # else:
         #     action =  # here #
-        raise NotImplementedError()
+#         raise NotImplementedError()
         # ------------
+        
+        #壁にぶつかるまで下に行き，ぶつかったら右に行く
+        if obs["x"] == 0 and  obs["y"] <= 1:
+            action = 1
+        else:
+            action = 0
+        
         return action
 
     def train(self, obs, reward):
