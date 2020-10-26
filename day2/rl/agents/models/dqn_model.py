@@ -14,11 +14,12 @@ class DQNModel(nn.Module):
         """
         初期値を代入。
         """
-        unit_sizes = [in_size, 10, 10]
+        unit_sizes = [in_size, 10, 10, 10]
         super(DQNModel, self).__init__()
         self.l_1 = nn.Linear(unit_sizes[0], unit_sizes[1])
         self.l_2 = nn.Linear(unit_sizes[1], unit_sizes[2])
-        self.l_out = nn.Linear(unit_sizes[2], out_size)
+        self.l_3 = nn.Linear(unit_sizes[2], unit_sizes[3])
+        self.l_out = nn.Linear(unit_sizes[3], out_size)
 
     def forward(self, x):
         """
@@ -28,6 +29,8 @@ class DQNModel(nn.Module):
         h = self.l_1(h)
         h = torch.relu(h)
         h = self.l_2(h)
+        h = torch.relu(h)
+        h = self.l_3(h)
         h = torch.relu(h)
         h = self.l_out(h)
         return h

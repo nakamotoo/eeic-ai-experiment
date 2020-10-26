@@ -55,5 +55,5 @@ geckodriver.log
 /trained_model/
 *.zip
 *.model
-/data/
+day3/cv/data/
 /result/

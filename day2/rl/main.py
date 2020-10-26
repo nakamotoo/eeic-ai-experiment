@@ -28,10 +28,10 @@ render_buffer = PrintBuffer()
 # 学習設定
 
 # 行うepisode 数
-n_episode = {'train': 100, 'test': 1}
+n_episode = {'train': 10000, 'test': 1}
 
 # 何step 経ったらepisode を強制終了するか
-n_max_time = {'train': 300, 'test': 300}
+n_max_time = {'train': 500, 'test': 500}
 
 # 演習3.4.3
 n_steps_sum = {'train': [], 'test': []}
