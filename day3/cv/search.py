@@ -20,9 +20,11 @@ def search(src, db_features, db_paths, k, gpu):
 		# Make a specified GPU current
 		device = 'cuda:' + str(gpu)
 	model = model.to(device)
+
 	# Get features
 	with torch.no_grad():
 		src_feature = model(data_preprocess(Image.open(src, 'r').convert('RGB')).unsqueeze(0).to(device)).to('cpu')
+		print(src_feature.shape)
 	# Load database
 	paths = torch.load(db_paths)
 	features = torch.load(db_features)

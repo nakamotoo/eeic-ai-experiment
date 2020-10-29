@@ -47,7 +47,8 @@ def main():
 
 	# Setup a loss and an optimizer
 	criterion = nn.CrossEntropyLoss()
-	optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+# 	optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+	optimizer = optim.Adam(net.parameters(),lr=0.001)
 
 	# Load the CIFAR-10
 

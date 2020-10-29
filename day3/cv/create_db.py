@@ -23,6 +23,8 @@ def createDatabase(paths, gpu):
 		# Make a specified GPU current
 		device = 'cuda:' + str(gpu)
 	model = model.to(device)
+	print(model)
+# 	exit()
 	# Get features
 	with torch.no_grad():
 		features = torch.cat(

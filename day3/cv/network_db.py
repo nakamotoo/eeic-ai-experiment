@@ -22,7 +22,7 @@ class Vgg16(torch.nn.Module):
 		self.features = nn.ModuleList(features).eval() 
 		self.avgpool = avgpool
 		self.sequentials = nn.ModuleList(sequentials).eval() 
-
+            
 	def forward(self, x):
 		"""
 		Parameters
@@ -44,5 +44,6 @@ class Vgg16(torch.nn.Module):
 		for i,model in enumerate(self.sequentials):
 			x = model(x)
 			# Return output of 1st layer in sequentials
-			if i == 3:
+# 			if i == 3:
+			if i == 0:
 				return x

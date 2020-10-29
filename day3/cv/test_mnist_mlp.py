@@ -1,4 +1,4 @@
-
+import numpy as np
 import argparse
 import torch
 import torch.nn as nn
@@ -51,6 +51,9 @@ def main():
 			image = image.to(device)
 		# Forward
 		outputs = net(image)
+		print(outputs)
+		print("3番", np.where(outputs[0].tolist()==np.sort(outputs[0].tolist())[-3]))
+		print("2番", np.where(outputs[0].tolist()==np.sort(outputs[0].tolist())[-2]))
 		# Predict the label
 		_, predicted = torch.max(outputs, 1)
 		# Print the result
