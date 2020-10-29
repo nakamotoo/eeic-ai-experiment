@@ -2,6 +2,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models import vgg16
+from network import MLP
 
 class Vgg16(torch.nn.Module):
 	"""
@@ -47,3 +48,23 @@ class Vgg16(torch.nn.Module):
 # 			if i == 3:
 			if i == 0:
 				return x
+
+# 課題4.3.4
+class MLP_DB(torch.nn.Module):
+
+	def __init__(self, model_path):
+		super(MLP_DB, self).__init__()
+		v = MLP(5000, 28*28, 10)
+		v.load_state_dict(torch.load( model_path))
+		print(v)
+
+		self.fc1 = v.fc1
+		self.fc2 = v.fc2
+		self.fc3 = v.fc3
+            
+	def forward(self, x):
+		print(x.shape)
+		x = self.fc1(x)
+		x = self.fc2(x)
+		print(x.shape)
+		return x
