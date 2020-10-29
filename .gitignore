@@ -57,3 +57,4 @@ geckodriver.log
 *.model
 day3/cv/data/
 /result/
+*.wav
